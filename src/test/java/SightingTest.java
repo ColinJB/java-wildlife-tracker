@@ -14,7 +14,7 @@ public class SightingTest {
 
   @Test
   public void sighting_instantiatesCorrectly_true() {
-    Animal testAnimal = new Animal("Deer");
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
     testAnimal.save();
     Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     assertEquals(true, testSighting instanceof Sighting);
@@ -22,7 +22,7 @@ public class SightingTest {
 
   @Test
   public void equals_returnsTrueIfLocationAndDescriptionAreSame_true() {
-    Animal testAnimal = new Animal("Deer");
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
     testAnimal.save();
     Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     Sighting anotherSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
@@ -31,7 +31,7 @@ public class SightingTest {
 
   @Test
   public void save_insertsObjectIntoDatabase_Sighting() {
-    Animal testAnimal = new Animal("Deer");
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
     testAnimal.save();
     Sighting testSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     testSighting.save();
@@ -40,11 +40,11 @@ public class SightingTest {
 
   @Test
   public void all_returnsAllInstancesOfSighting_true() {
-    Animal testAnimal = new Animal("Deer");
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
     testAnimal.save();
     Sighting testSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     testSighting.save();
-    Animal secondTestAnimal = new Animal("Badger");
+    EndangeredAnimal secondTestAnimal = new EndangeredAnimal("Badge", "", "");
     secondTestAnimal.save();
     Sighting secondTestSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Reese");
     secondTestSighting.save();
@@ -54,11 +54,11 @@ public class SightingTest {
 
   @Test
   public void find_returnsSightingWithSameId_secondSighting() {
-    Animal testAnimal = new Animal("Deer");
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
     testAnimal.save();
     Sighting testSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     testSighting.save();
-    Animal secondTestAnimal = new Animal("Badger");
+    EndangeredAnimal secondTestAnimal = new EndangeredAnimal("Badger", "", "");
     secondTestAnimal.save();
     Sighting secondTestSighting = new Sighting (testAnimal.getId(), "45.472428, -121.946466", "Ranger Reese");
     secondTestSighting.save();

@@ -64,4 +64,11 @@ public class EndangeredAnimalTest {
     assertEquals("Adult", EndangeredAnimal.find(testEndangeredAnimal.getId()).getAge());
   }
 
+  @Test
+  public void equals_returnsTrueIfNameIsTheSame_false() {
+    EndangeredAnimal firstAnimal = new EndangeredAnimal("Deer","","");
+    EndangeredAnimal anotherAnimal = new EndangeredAnimal("Deer","","");
+    assertTrue(firstAnimal.equals(anotherAnimal));
+  }
+
 }

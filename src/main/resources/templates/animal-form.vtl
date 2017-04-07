@@ -4,26 +4,27 @@
 
 <form action="/animal/new" method="post">
   <label>Animal Species</label>
-  <input type="text" name="name">
+  <input type="text" id="name" name="name">
   <label>Endangered?</label>
-  <input type="checkbox" name="endangered">
-
+  <select id="endangered" type="text" name="endangered">
+    <option value="no">No</option>
+    <option value="yes">Yes</option>
+  </select>
   <h3>Additional Info for Endangered Animals:</h3>
-
   <label>Health</label>
-  <select name="health">
-    <option>Ill</option>
-    <option>Okay</option>
-    <option>Healthy</option>
+  <select id="health" type="text" name="health">
+    <option value="Ill">Ill</option>
+    <option value="Okay">Okay</option>
+    <option value="Healthy">Healthy</option>
   </select>
 
   <label>Age</label>
-  <select name="age">
-    <option>Newborn</option>
-    <option>Young</option>
-    <option>Adult</option>
+  <select id="age" type="text" name="age">
+    <option value="Newborn">Newborn</option>
+    <option value="Young">Young</option>
+    <option value="Adult">Adult</option>
   </select>
 
   <button type="submit">Add Animal</button>
-  
+
 </form>

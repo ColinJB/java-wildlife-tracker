@@ -6,11 +6,6 @@ public class Animal {
   public String name;
   public int id;
 
-  public Animal(String name) {
-    this.name = name;
-    this.id = id;
-  }
-
   public String getName() {
     return name;
   }
@@ -29,21 +24,11 @@ public class Animal {
     }
   }
 
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name) VALUES (:name);";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .executeUpdate()
-        .getKey();
-    }
-  }
-
-  public static List<Animal> all() {
+  public static List<EndangeredAnimal> all() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM animals;";
       return con.createQuery(sql)
-        .executeAndFetch(Animal.class);
+        .executeAndFetch(EndangeredAnimal.class);
     }
   }
 
@@ -52,7 +37,7 @@ public class Animal {
       String sql = "SELECT * FROM animals WHERE id=:id;";
       Animal animal = con.createQuery(sql)
         .addParameter("id", id)
-        .executeAndFetchFirst(Animal.class);
+        .executeAndFetchFirst(EndangeredAnimal.class);
       return animal;
     }
   }
@@ -76,14 +61,14 @@ public class Animal {
     }
   }
 
-  public List<Sighting> getSightings() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
-        List<Sighting> sightings = con.createQuery(sql)
-          .addParameter("id", id)
-          .executeAndFetch(Sighting.class);
-      return sightings;
-    }
-  }
+  // public List<Sighting> getSightings() {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
+  //       List<Sighting> sightings = con.createQuery(sql)
+  //         .addParameter("id", id)
+  //         .executeAndFetch(Sighting.class);
+  //     return sightings;
+  //   }
+  // }
 
 }
