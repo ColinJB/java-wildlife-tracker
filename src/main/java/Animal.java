@@ -3,15 +3,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Animal {
-  public String name;
   public int id;
+  public String name;
+  public String type;
+  public String species;
+  public boolean endangered;
 
   public String getName() {
     return name;
   }
 
+  public String getSpecies() {
+    return species;
+  }
+
   public int getId() {
     return id;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public boolean endangeredStatus() {
+    return endangered;
   }
 
   @Override
@@ -20,16 +35,26 @@ public class Animal {
       return false;
     } else {
       Animal newAnimal = (Animal) otherAnimal;
-      return this.getName().equals(newAnimal.getName());
+      return this.getName().equals(newAnimal.getName()) &&
+             this.getSpecies().equals(newAnimal.getSpecies()) &&
+             this.endangeredStatus() == newAnimal.endangeredStatus();
     }
   }
 
-  public static List<EndangeredAnimal> all() {
+  public static List<Animal> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals;";
-      return con.createQuery(sql)
+      String sql = "SELECT * FROM animals WHERE endangered = true;";
+      List<EndangeredAnimal> endangered = con.createQuery(sql)
         .executeAndFetch(EndangeredAnimal.class);
+
+      String sql2 = "SELECT * FROM animals WHERE endangered = false;";
+      List<NonEndangered> nonEndangered = con.createQuery(sql2)
+        .executeAndFetch(NonEndangered.class);
     }
+    List<Animal> animals = new ArrayList<Animal>();
+    animals.addAll(endangered);
+    animals.addAll(nonEndangered);
+    return animals;
   }
 
   public static Animal find(int id) {
@@ -39,6 +64,15 @@ public class Animal {
         .addParameter("id", id)
         .executeAndFetchFirst(EndangeredAnimal.class);
       return animal;
+    }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM animals WHERE id=:id;";
+      con.createQuery(sql)
+      .addParameter("id", id)
+      .executeUpdate();
     }
   }
 
@@ -52,14 +86,6 @@ public class Animal {
     }
   }
 
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM animals WHERE id=:id;";
-      con.createQuery(sql)
-        .addParameter("id", id)
-        .executeUpdate();
-    }
-  }
 
   public List<Sighting> getSightings() {
     try(Connection con = DB.sql2o.open()) {

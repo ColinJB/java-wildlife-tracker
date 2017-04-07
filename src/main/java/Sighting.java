@@ -4,32 +4,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Sighting {
-  private int animal_id;
-  private String location;
-  private String ranger_name;
   private int id;
+  private int ranger_id;
+  private String location;
+  private Date date;
 
-  public Sighting(int animal_id, String location, String ranger_name) {
-    this.animal_id = animal_id;
+  public Sighting(String location, int ranger_id) {
     this.location = location;
-    this.ranger_name = ranger_name;
-    this.id = id;
+    this.ranger_id = ranger_id;
   }
 
   public int getId() {
     return id;
   }
 
-  public int getAnimalId() {
-    return animal_id;
-  }
-
   public String getLocation() {
     return location;
   }
 
-  public String getRangerName() {
-    return ranger_name;
+  public int getRangerId() {
+    return ranger_id;
+  }
+
+  public Date getDate() {
+    return date;
   }
 
   @Override
@@ -38,17 +36,17 @@ public class Sighting {
       return false;
     } else {
       Sighting newSighting = (Sighting) otherSighting;
-      return this.getAnimalId() == (newSighting.getAnimalId()) && this.getLocation().equals(newSighting.getLocation()) && this.getRangerName().equals(newSighting.getRangerName());
+      return this.getRangerId() == (newSighting.getRangerId()) && this.getLocation().equals(newSighting.getLocation()) && this.getDate().equals(newSighting.getDate());
     }
   }
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (animal_id, location, ranger_name) VALUES (:animal_id, :location, :ranger_name);";
+      String sql = "INSERT INTO sightings (date, location, ranger_id) VALUES (:date, :location, :ranger_id);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("animal_id", this.animal_id)
+        .addParameter("date", this.date)
         .addParameter("location", this.location)
-        .addParameter("ranger_name", this.ranger_name)
+        .addParameter("ranger_id", this.ranger_id)
         .executeUpdate()
         .getKey();
     }
