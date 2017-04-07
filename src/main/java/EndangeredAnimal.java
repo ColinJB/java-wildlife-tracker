@@ -5,15 +5,16 @@ import java.util.List;
 public class EndangeredAnimal extends Animal{
   private String health;
   private String age;
+  public static final boolean ENDANGERED_STATUS = true;
 
   public EndangeredAnimal(String name, String species, String type) {
     this.name = name;
     this.id = id;
     this.type = type;
-    this.endangered = true;
     this.health = health;
     this.age = age;
     this.species = species;
+    endangered = ENDANGERED_STATUS;
   }
 
   public String getHealth() {
@@ -36,14 +37,13 @@ public class EndangeredAnimal extends Animal{
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, type, species, health, age, endangered) VALUES (:name, :type, :species, :health, :age, :endangered);";
+      String sql = "INSERT INTO animals (name, type, species, health, age, endangered) VALUES (:name, :type, :species, :health, :age, true);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
         .addParameter("health", this.health)
         .addParameter("age", this.age)
         .addParameter("type", this.type)
         .addParameter("species", this.species)
-        .addParameter("endangered", this.endangered)
         .executeUpdate()
         .getKey();
     }
@@ -95,6 +95,4 @@ public class EndangeredAnimal extends Animal{
           .executeAndFetch(Sighting.class);
     }
   }
-
-
 }

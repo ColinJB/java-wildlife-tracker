@@ -7,7 +7,8 @@ public class Sighting {
   private int id;
   private int ranger_id;
   private String location;
-  private Date date;
+  private Timestamp timestamp;
+  private String date;
 
   public Sighting(String location, int ranger_id) {
     this.location = location;
