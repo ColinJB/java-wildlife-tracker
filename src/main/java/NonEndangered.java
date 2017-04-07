@@ -9,8 +9,6 @@ public class NonEndangered extends Animal {
     this.name = name;
     this.id = id;
     this.type = type;
-    this.health = health;
-    this.age = age;
     this.species = species;
     endangered = ENDANGERED_STATUS;
   }
@@ -41,6 +39,7 @@ public class NonEndangered extends Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM animals WHERE endangered = false;";
       return con.createQuery(sql)
+        .throwOnMappingFailure(false)
         .executeAndFetch(NonEndangered.class);
     }
   }
@@ -83,8 +82,5 @@ public class NonEndangered extends Animal {
           .executeAndFetch(Sighting.class);
     }
   }
-
-
-}
 
 }

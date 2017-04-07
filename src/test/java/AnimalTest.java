@@ -20,7 +20,7 @@ public class AnimalTest {
   public void save_assignsIdToObjectAndSavesObjectToDatabase() {
     EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "Healthy", "Young");
     testAnimal.save();
-    EndangeredAnimal savedAnimal = Animal.all().get(0);
+    EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
     assertEquals(testAnimal.getId(), savedAnimal.getId());
   }
 
@@ -30,8 +30,8 @@ public class AnimalTest {
     firstAnimal.save();
     EndangeredAnimal secondAnimal = new EndangeredAnimal("Black Bear","","");
     secondAnimal.save();
-    assertEquals(true, Animal.all().get(0).equals(firstAnimal));
-    assertEquals(true, Animal.all().get(1).equals(secondAnimal));
+    assertEquals(true, Animal.allAnimals().get(0).equals(firstAnimal));
+    assertEquals(true, Animal.allAnimals().get(1).equals(secondAnimal));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class AnimalTest {
     EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","","");
     testAnimal.save();
     testAnimal.delete();
-    assertEquals(0, Animal.all().size());
+    assertEquals(0, Animal.allAnimals().size());
   }
 
   @Test
@@ -56,7 +56,7 @@ public class AnimalTest {
     EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","","");
     testAnimal.save();
     testAnimal.updateName("Buck");
-    assertEquals("Buck", Animal.all().get(0).getName());
+    assertEquals("Buck", Animal.allAnimals().get(0).getName());
   }
 
   @Test

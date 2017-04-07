@@ -6,10 +6,11 @@ import java.util.Arrays;
 public class Ranger {
   private int id;
   private String name;
+  private String phone;
+  private String badge;
 
   public Ranger(String name) {
     this.name = name;
-    this.id = id;
   }
 
   public int getId() {
@@ -18,6 +19,14 @@ public class Ranger {
 
   public String getName() {
     return name;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public String getBadge() {
+    return badge;
   }
 
   @Override

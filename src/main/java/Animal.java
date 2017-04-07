@@ -1,6 +1,7 @@
 import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class Animal {
   public int id;
@@ -41,20 +42,11 @@ public class Animal {
     }
   }
 
-  public static List<Animal> all() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE endangered = true;";
-      List<EndangeredAnimal> endangered = con.createQuery(sql)
-        .executeAndFetch(EndangeredAnimal.class);
-
-      String sql2 = "SELECT * FROM animals WHERE endangered = false;";
-      List<NonEndangered> nonEndangered = con.createQuery(sql2)
-        .executeAndFetch(NonEndangered.class);
-    }
-    List<Animal> animals = new ArrayList<Animal>();
-    animals.addAll(endangered);
-    animals.addAll(nonEndangered);
-    return animals;
+  public static List<Animal> allAnimals() {
+    List<Animal> allAnimals = new ArrayList<Animal>();
+    allAnimals.addAll(EndangeredAnimal.all());
+    allAnimals.addAll(NonEndangered.all());
+    return allAnimals;
   }
 
   public static Animal find(int id) {
@@ -71,6 +63,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM animals WHERE id=:id;";
       con.createQuery(sql)
+      .throwOnMappingFailure(false)
       .addParameter("id", id)
       .executeUpdate();
     }
@@ -80,6 +73,7 @@ public class Animal {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE animals SET name=:name WHERE id=:id;";
       con.createQuery(sql)
+        .throwOnMappingFailure(false)
         .addParameter("id", id)
         .addParameter("name", name)
         .executeUpdate();

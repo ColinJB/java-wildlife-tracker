@@ -2,6 +2,10 @@ import org.sql2o.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.text.DateFormat;
+import java.sql.Timestamp;
+
 
 public class Sighting {
   private int id;
@@ -10,9 +14,20 @@ public class Sighting {
   private Timestamp timestamp;
   private String date;
 
-  public Sighting(String location, int ranger_id) {
+  public Sighting(String location, int ranger_id, String dateTime) {
     this.location = location;
     this.ranger_id = ranger_id;
+    this.date = dateTime;
+  }
+
+  public Timestamp createTimestamp() {
+    Timestamp timestamp = Timestamp.valueOf(this.date.replace("T"," "));
+    return timestamp;
+  }
+
+  public String stampToString() {
+    String stringTime = DateFormat.getDateTimeInstance().format(timestamp);
+    return stringTime;
   }
 
   public int getId() {
@@ -27,8 +42,12 @@ public class Sighting {
     return ranger_id;
   }
 
-  public Date getDate() {
+  public String getDate() {
     return date;
+  }
+
+  public Timestamp getTimestamp() {
+    return timestamp;
   }
 
   @Override
@@ -72,5 +91,7 @@ public class Sighting {
       return null;
     }
   }
+
+
 
 }
