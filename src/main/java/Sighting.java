@@ -92,7 +92,25 @@ public class Sighting {
     }
   }
 
-  
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM sightings WHERE id=:id;";
+      con.createQuery(sql)
+      .throwOnMappingFailure(false)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
+  }
+
+  public void updateLocation(String location) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE sightings SET location=:location WHERE id=:id;";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .addParameter("location", location)
+        .executeUpdate();
+    }
+  }
 
 
 
