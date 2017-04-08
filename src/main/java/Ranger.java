@@ -78,6 +78,26 @@ public class Ranger {
     }
   }
 
+  public void addAnimal(Animal animal){
+    try (Connection con = DB.sql2o.open()){
+      String sql = "INSERT INTO animals_rangers (animal_id, ranger_id) VALUES (:animal_id, :ranger_id);";
+      con.createQuery(sql)
+        .addParameter("animal_id", animal.getId())
+        .addParameter("ranger_id", this.id)
+        .executeUpdate();
+    }
+  }
+
+  public List<Animal> allAnimals(){
+  try (Connection con = DB.sql2o.open()){
+    String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id;";
+    return con.createQuery(sql)
+      .addParameter("id", this.getId())
+      .throwOnMappingFailure(false)
+      .executeAndFetch(Animal.class);
+    }
+  }
+
 
 
 }

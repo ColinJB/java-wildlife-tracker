@@ -22,5 +22,21 @@ public class RangerTest {
     assertEquals(testRanger.allSightings().size(), 3);
   }
 
+  @Test
+  public void allAnimals() {
+    Ranger testRanger = new Ranger("Colin");
+    testRanger.save();
+    EndangeredAnimal firstAnimal = new EndangeredAnimal("Deer","","");
+    EndangeredAnimal secondAnimal = new EndangeredAnimal("Bear","","");
+    EndangeredAnimal thirdAnimal = new EndangeredAnimal("Duck","","");
+    firstAnimal.save();
+    secondAnimal.save();
+    thirdAnimal.save();
+    testRanger.addAnimal(firstAnimal);
+    testRanger.addAnimal(secondAnimal);
+    testRanger.addAnimal(thirdAnimal);
+    assertEquals(testRanger.allAnimals().size(), 3);
+  }
+
 
 }
