@@ -98,6 +98,25 @@ public class Ranger {
     }
   }
 
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM rangers WHERE id=:id;";
+      con.createQuery(sql)
+      .throwOnMappingFailure(false)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
+  }
+
+  public void updateInfo(String column, String value) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = String.format("UPDATE rangers SET %s = %s WHERE id=:id;", column, value);
+      con.createQuery(sql)
+        .addParameter("id", this.id)
+        .executeUpdate();
+    }
+  }
+
 
 
 }
