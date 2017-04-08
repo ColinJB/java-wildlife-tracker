@@ -52,16 +52,19 @@ public class AnimalTest {
   }
 
   @Test
-  public void updateName_updatesAnimalNameInDatabase_String() {
-    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","","");
-    testAnimal.save();
-    testAnimal.updateName("Buck");
-    assertEquals("Buck", Animal.allAnimals().get(0).getName());
+  public void find_returnsNullWhenNoAnimalFound_null() {
+    assertTrue(Animal.find(999) == null);
   }
 
   @Test
-  public void find_returnsNullWhenNoAnimalFound_null() {
-    assertTrue(Animal.find(999) == null);
+  public void updateInfo() {
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Marty","Cat","Mammal");
+    testAnimal.save();
+    testAnimal.updateInfo("species", "'Maned Wolf'");
+    testAnimal.updateInfo("type", "'Canid'");
+    EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
+    assertEquals(savedAnimal.getType(), "Canid");
+    assertEquals(savedAnimal.getSpecies(), "Maned Wolf");
   }
 
 }

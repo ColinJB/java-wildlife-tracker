@@ -88,12 +88,4 @@ public class EndangeredAnimal extends Animal{
     }
   }
 
-  public List<Sighting> getSightings() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
-        return con.createQuery(sql)
-          .addParameter("id", id)
-          .executeAndFetch(Sighting.class);
-    }
-  }
 }
