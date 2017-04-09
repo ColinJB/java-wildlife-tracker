@@ -1,6 +1,12 @@
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.text.DateFormat;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class NonEndangered extends Animal {
   public static final boolean ENDANGERED_STATUS = false;
@@ -11,7 +17,6 @@ public class NonEndangered extends Animal {
     this.type = type;
     this.species = species;
     endangered = ENDANGERED_STATUS;
-    this.count = 0;
   }
 
   @Override

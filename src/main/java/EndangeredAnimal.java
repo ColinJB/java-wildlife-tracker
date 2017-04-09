@@ -1,6 +1,12 @@
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.text.DateFormat;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 
 public class EndangeredAnimal extends Animal{
@@ -16,7 +22,6 @@ public class EndangeredAnimal extends Animal{
     this.age = age;
     this.species = species;
     endangered = ENDANGERED_STATUS;
-    this.count = 0;
   }
 
   public String getHealth() {

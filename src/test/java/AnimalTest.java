@@ -71,17 +71,30 @@ public class AnimalTest {
   public void allSightings_() {
     EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","Cat","Mammal");
     testAnimal.save();
-    Ranger testRanger = new Ranger("Colin");
+    Ranger testRanger = new Ranger("Colin", "", "");
     testRanger.save();
-    Sighting testSighting = new Sighting("Here", testRanger.getId(), "11:11");
+    Sighting testSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId(), testAnimal);
+    Sighting testSighting2 = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId(), testAnimal);
     testSighting.save();
-    Sighting testSighting2 = new Sighting("Here", testRanger.getId(), "11:11");
     testSighting2.save();
-    testAnimal.addSighting(testSighting);
-    testAnimal.addSighting(testSighting2);
     EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
-    System.out.println(testAnimal.allSightings());
     assertEquals(testAnimal.allSightings().size(), 2);
   }
 
+  @Test
+  public void allRangers_() {
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","Cat","Mammal");
+    testAnimal.save();
+    Ranger testRanger = new Ranger("Colin", "", "");
+    testRanger.save();
+    Ranger testRanger2 = new Ranger("Grace", "", "");
+    testRanger2.save();
+    Sighting testSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId(), testAnimal);
+    Sighting testSighting2 = new Sighting("there","1985-04-12T23:20:50.52", testRanger2.getId(), testAnimal);
+    testSighting.save();
+    testSighting2.save();
+    EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
+    System.out.println(testAnimal.allRangers());
+    assertEquals(testAnimal.allRangers().size(), 2);
+  }
 }

@@ -2,6 +2,11 @@ import org.sql2o.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.text.DateFormat;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class Ranger {
   private int id;
@@ -9,8 +14,10 @@ public class Ranger {
   private String phone;
   private String badge;
 
-  public Ranger(String name) {
+  public Ranger(String name, String phone, String badge) {
     this.name = name;
+    this.phone = phone;
+    this.badge = badge;
   }
 
   public int getId() {
@@ -78,16 +85,6 @@ public class Ranger {
     }
   }
 
-  public void addAnimal(Animal animal){
-    try (Connection con = DB.sql2o.open()){
-      String sql = "INSERT INTO animals_rangers (animal_id, ranger_id) VALUES (:animal_id, :ranger_id);";
-      con.createQuery(sql)
-        .addParameter("animal_id", animal.getId())
-        .addParameter("ranger_id", this.id)
-        .executeUpdate();
-    }
-  }
-
   public List<Animal> allAnimals(){
   try (Connection con = DB.sql2o.open()){
     String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id;";
@@ -116,7 +113,5 @@ public class Ranger {
         .executeUpdate();
     }
   }
-
-
 
 }

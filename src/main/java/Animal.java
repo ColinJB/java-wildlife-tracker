@@ -1,7 +1,12 @@
 import org.sql2o.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.text.DateFormat;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class Animal {
   public int id;
@@ -9,14 +14,13 @@ public class Animal {
   public String type;
   public String species;
   public boolean endangered;
-  public int count;
 
   public String getName() {
     return name;
   }
 
   public int getCount() {
-    return count;
+    return this.allSightings().size();
   }
 
   public String getSpecies() {
@@ -93,15 +97,14 @@ public class Animal {
     }
   }
 
-  public void addSighting(Sighting sighting){
-    try (Connection con = DB.sql2o.open()){
-      String sql = "INSERT INTO animals_sightings (animal_id, sighting_id) VALUES (:animal_id, :sighting_id);";
-      con.createQuery(sql)
-        .addParameter("animal_id", this.id)
-        .addParameter("sighting_id", sighting.getId())
-        .executeUpdate();
-      }
-    count++;
+  public List<Ranger> allRangers(){
+  try (Connection con = DB.sql2o.open()){
+    String sql = "SELECT rangers.*  FROM animals JOIN animals_rangers ON (animals.id = animals_rangers.animal_id) JOIN rangers ON (animals_rangers.ranger_id = rangers.id) WHERE animals.id =:id;";
+    return con.createQuery(sql)
+      .addParameter("id", this.id)
+      .throwOnMappingFailure(false)
+      .executeAndFetch(Ranger.class);
+    }
   }
 
 }

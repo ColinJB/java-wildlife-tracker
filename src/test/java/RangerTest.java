@@ -11,11 +11,11 @@ public class RangerTest {
 
   @Test
   public void allSightings() {
-    Ranger testRanger = new Ranger("Colin");
+    Ranger testRanger = new Ranger("Colin","","");
     testRanger.save();
-    Sighting firstSighting = new Sighting("There", testRanger.getId(), "11:11");
-    Sighting secondSighting = new Sighting("Here", testRanger.getId(), "11:12");
-    Sighting thirdSighting = new Sighting("Outside", testRanger.getId(), "11:13");
+    Sighting firstSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
+    Sighting secondSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
+    Sighting thirdSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
     firstSighting.save();
     secondSighting.save();
     thirdSighting.save();
@@ -24,19 +24,16 @@ public class RangerTest {
 
   @Test
   public void allAnimals() {
-    Ranger testRanger = new Ranger("Colin");
+    Ranger testRanger = new Ranger("Colin","","");
     testRanger.save();
     EndangeredAnimal firstAnimal = new EndangeredAnimal("Deer","","");
     EndangeredAnimal secondAnimal = new EndangeredAnimal("Bear","","");
     EndangeredAnimal thirdAnimal = new EndangeredAnimal("Duck","","");
+    Sighting firstSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId(), firstAnimal, secondAnimal, thirdAnimal);
     firstAnimal.save();
     secondAnimal.save();
     thirdAnimal.save();
-    testRanger.addAnimal(firstAnimal);
-    testRanger.addAnimal(secondAnimal);
-    testRanger.addAnimal(thirdAnimal);
+    firstSighting.save();
     assertEquals(testRanger.allAnimals().size(), 3);
   }
-
-
 }

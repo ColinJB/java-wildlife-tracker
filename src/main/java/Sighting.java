@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.text.DateFormat;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 
 public class Sighting {
@@ -13,11 +15,13 @@ public class Sighting {
   private String location;
   private Timestamp timestamp;
   private String date;
+  private Animal[] animals;
 
-  public Sighting(String location, int ranger_id, String dateTime) {
+  public Sighting(String location, String date, int ranger_id, Animal... animals) {
     this.location = location;
     this.ranger_id = ranger_id;
-    this.date = dateTime;
+    this.date = date;
+    this.animals = animals;
   }
 
   public Timestamp createTimestamp() {
@@ -26,8 +30,14 @@ public class Sighting {
   }
 
   public String stampToString() {
-    String stringTime = DateFormat.getDateTimeInstance().format(timestamp);
-    return stringTime;
+    Date date = new Date(this.timestamp.getTime());
+    DateFormat df = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
+    String stringDate = df.format(date);
+    return stringDate;
+  }
+
+  public Animal[] getAnimals() {
+    return animals;
   }
 
   public int getId() {
@@ -61,14 +71,31 @@ public class Sighting {
   }
 
   public void save() {
+    Timestamp timestamp = this.createTimestamp();
+    this.timestamp = timestamp;
+    String date = this.stampToString();
+    this.date = date;
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (date, location, ranger_id) VALUES (:date, :location, :ranger_id);";
+      String sql = "INSERT INTO sightings (timestamp, date, location, ranger_id) VALUES (:timestamp, :date, :location, :ranger_id);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("date", this.date)
+        .addParameter("timestamp", timestamp)
+        .addParameter("date", date)
         .addParameter("location", this.location)
         .addParameter("ranger_id", this.ranger_id)
         .executeUpdate()
         .getKey();
+      for (Animal eachAnimal : this.animals) {
+        String sql2 = "INSERT INTO animals_sightings (animal_id, sighting_id) VALUES (:animal_id, :sighting_id);";
+        con.createQuery(sql2)
+          .addParameter("animal_id", eachAnimal.getId())
+          .addParameter("sighting_id", this.id)
+          .executeUpdate();
+        String sql3 = "INSERT INTO animals_rangers (animal_id, ranger_id) VALUES (:animal_id, :ranger_id);";
+        con.createQuery(sql3)
+          .addParameter("animal_id", eachAnimal.getId())
+          .addParameter("ranger_id", this.ranger_id)
+          .executeUpdate();
+      }
     }
   }
 
@@ -121,8 +148,5 @@ public class Sighting {
       .executeAndFetch(Animal.class);
     }
   }
-
-
-
 
 }
