@@ -74,22 +74,22 @@ public class Location {
 
   public List<Sighting> allSightings() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE station_id = :station_id ORDER BY timestamp desc;";
+      String sql = "SELECT * FROM sightings WHERE location_id = :location_id ORDER BY timestamp desc;";
       return con.createQuery(sql)
-        .addParameter("station_id", station_id)
+        .addParameter("location_id", this.id)
         .executeAndFetch(Sighting.class);
     }
   }
 
-  // public List<Animal> allAnimals(){
-  // try (Connection con = DB.sql2o.open()){
-  //   String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id;";
-  //   return con.createQuery(sql)
-  //     .addParameter("id", this.getId())
-  //     .throwOnMappingFailure(false)
-  //     .executeAndFetch(Animal.class);
-  //   }
-  // }
+  public List<Animal> allAnimals(){
+  try (Connection con = DB.sql2o.open()){
+    String sql = "SELECT animals.*  FROM locations JOIN animals_locations ON (locations.id = animals_locations.location_id) JOIN animals ON (animals_locations.animal_id = animals.id) WHERE locations.id =:id ORDER BY species asc;";
+    return con.createQuery(sql)
+      .addParameter("id", this.id)
+      .throwOnMappingFailure(false)
+      .executeAndFetch(Animal.class);
+    }
+  }
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {

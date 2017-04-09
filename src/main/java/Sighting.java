@@ -102,6 +102,11 @@ public class Sighting {
           .addParameter("animal_id", eachAnimal.getId())
           .addParameter("ranger_id", this.ranger_id)
           .executeUpdate();
+        String sql4 = "INSERT INTO animals_locations (animal_id, location_id) VALUES (:animal_id, :location_id);";
+        con.createQuery(sql4)
+          .addParameter("animal_id", eachAnimal.getId())
+          .addParameter("location_id", this.location_id)
+          .executeUpdate();
       }
     }
   }
