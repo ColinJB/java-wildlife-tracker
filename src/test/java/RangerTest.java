@@ -11,11 +11,11 @@ public class RangerTest {
 
   @Test
   public void allSightings() {
-    Ranger testRanger = new Ranger("Colin","","");
+    Ranger testRanger = new Ranger("Colin","","",1);
     testRanger.save();
-    Sighting firstSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
-    Sighting secondSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
-    Sighting thirdSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId());
+    Sighting firstSighting = new Sighting(1,"1985-04-12T23:20:50.52", testRanger.getId());
+    Sighting secondSighting = new Sighting(1,"1985-04-12T23:20:50.52", testRanger.getId());
+    Sighting thirdSighting = new Sighting(1,"1985-04-12T23:20:50.52", testRanger.getId());
     firstSighting.save();
     secondSighting.save();
     thirdSighting.save();
@@ -24,12 +24,12 @@ public class RangerTest {
 
   @Test
   public void allAnimals() {
-    Ranger testRanger = new Ranger("Colin","","");
+    Ranger testRanger = new Ranger("Colin","","",1);
     testRanger.save();
     EndangeredAnimal firstAnimal = new EndangeredAnimal("Deer","","");
     EndangeredAnimal secondAnimal = new EndangeredAnimal("Bear","","");
     EndangeredAnimal thirdAnimal = new EndangeredAnimal("Duck","","");
-    Sighting firstSighting = new Sighting("there","1985-04-12T23:20:50.52", testRanger.getId(), firstAnimal, secondAnimal, thirdAnimal);
+    Sighting firstSighting = new Sighting(1,"1985-04-12T23:20:50.52", testRanger.getId(), firstAnimal, secondAnimal, thirdAnimal);
     firstAnimal.save();
     secondAnimal.save();
     thirdAnimal.save();

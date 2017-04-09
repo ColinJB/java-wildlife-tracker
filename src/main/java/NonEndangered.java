@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 public class NonEndangered extends Animal {
   public static final boolean ENDANGERED_STATUS = false;
 
-  public NonEndangered(String name, String species, String type) {
-    this.name = name;
+  public NonEndangered(String tag, String species, String type) {
+    this.tag = tag;
     this.id = id;
     this.type = type;
     this.species = species;
@@ -25,15 +25,15 @@ public class NonEndangered extends Animal {
       return false;
     } else {
       NonEndangered newNonEndangered = (NonEndangered) otherNonEndangered;
-      return this.getName().equals(newNonEndangered.getName()) && this.getSpecies().equals(newNonEndangered.getSpecies());
+      return this.getTag().equals(newNonEndangered.getTag()) && this.getSpecies().equals(newNonEndangered.getSpecies());
     }
   }
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, type, species, endangered) VALUES (:name, :type, :species, false);";
+      String sql = "INSERT INTO animals (tag, type, species, endangered) VALUES (:tag, :type, :species, false);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
+        .addParameter("tag", this.tag)
         .addParameter("type", this.type)
         .addParameter("species", this.species)
         .executeUpdate()

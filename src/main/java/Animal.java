@@ -10,13 +10,13 @@ import java.text.SimpleDateFormat;
 
 public class Animal {
   public int id;
-  public String name;
+  public String tag;
   public String type;
   public String species;
   public boolean endangered;
 
-  public String getName() {
-    return name;
+  public String getTag() {
+    return tag;
   }
 
   public int getCount() {
@@ -45,7 +45,7 @@ public class Animal {
       return false;
     } else {
       Animal newAnimal = (Animal) otherAnimal;
-      return this.getName().equals(newAnimal.getName()) &&
+      return this.getTag().equals(newAnimal.getTag()) &&
              this.getSpecies().equals(newAnimal.getSpecies()) &&
              this.endangeredStatus() == newAnimal.endangeredStatus();
     }
@@ -89,7 +89,7 @@ public class Animal {
 
   public List<Sighting> allSightings(){
   try (Connection con = DB.sql2o.open()){
-    String sql = "SELECT sightings.*  FROM animals JOIN animals_sightings ON (animals.id = animals_sightings.animal_id) JOIN sightings ON (animals_sightings.sighting_id = sightings.id) WHERE animals.id =:id;";
+    String sql = "SELECT sightings.*  FROM animals JOIN animals_sightings ON (animals.id = animals_sightings.animal_id) JOIN sightings ON (animals_sightings.sighting_id = sightings.id) WHERE animals.id =:id ORDER BY timestamp desc;";
     return con.createQuery(sql)
       .addParameter("id", this.id)
       .throwOnMappingFailure(false)

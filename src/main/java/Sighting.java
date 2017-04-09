@@ -12,13 +12,13 @@ import java.text.SimpleDateFormat;
 public class Sighting {
   private int id;
   private int ranger_id;
-  private String location;
+  private int location_id;
   private Timestamp timestamp;
   private String date;
   private Animal[] animals;
 
-  public Sighting(String location, String date, int ranger_id, Animal... animals) {
-    this.location = location;
+  public Sighting(int location_id, String date, int ranger_id, Animal... animals) {
+    this.location_id = location_id;
     this.ranger_id = ranger_id;
     this.date = date;
     this.animals = animals;
@@ -44,8 +44,8 @@ public class Sighting {
     return id;
   }
 
-  public String getLocation() {
-    return location;
+  public int getLocationId() {
+    return location_id;
   }
 
   public int getRangerId() {
@@ -66,7 +66,7 @@ public class Sighting {
       return false;
     } else {
       Sighting newSighting = (Sighting) otherSighting;
-      return this.getRangerId() == (newSighting.getRangerId()) && this.getLocation().equals(newSighting.getLocation()) && this.getDate().equals(newSighting.getDate());
+      return this.getRangerId() == (newSighting.getRangerId()) && this.getLocationId() == newSighting.getLocationId() && this.getDate().equals(newSighting.getDate());
     }
   }
 
@@ -76,11 +76,11 @@ public class Sighting {
     String date = this.stampToString();
     this.date = date;
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (timestamp, date, location, ranger_id) VALUES (:timestamp, :date, :location, :ranger_id);";
+      String sql = "INSERT INTO sightings (timestamp, date, location_id, ranger_id) VALUES (:timestamp, :date, :location_id, :ranger_id);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("timestamp", timestamp)
         .addParameter("date", date)
-        .addParameter("location", this.location)
+        .addParameter("location_id", this.location_id)
         .addParameter("ranger_id", this.ranger_id)
         .executeUpdate()
         .getKey();
@@ -129,12 +129,11 @@ public class Sighting {
     }
   }
 
-  public void updateLocation(String location) {
+  public void updateLocationIdOrRangerId(String column, int valueId) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE sightings SET location=:location WHERE id=:id;";
+      String sql = String.format("UPDATE sightings SET %s = '%s' WHERE id=:id;", column, valueId);
       con.createQuery(sql)
         .addParameter("id", id)
-        .addParameter("location", location)
         .executeUpdate();
     }
   }
@@ -148,5 +147,14 @@ public class Sighting {
       .executeAndFetch(Animal.class);
     }
   }
+
+  public static List<Sighting> orderedList() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM sightings ORDER BY timestamp desc;";
+      return con.createQuery(sql)
+        .executeAndFetch(Sighting.class);
+    }
+  }
+
 
 }

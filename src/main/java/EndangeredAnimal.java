@@ -14,8 +14,8 @@ public class EndangeredAnimal extends Animal{
   private String age;
   public static final boolean ENDANGERED_STATUS = true;
 
-  public EndangeredAnimal(String name, String species, String type) {
-    this.name = name;
+  public EndangeredAnimal(String tag, String species, String type) {
+    this.tag = tag;
     this.id = id;
     this.type = type;
     this.health = health;
@@ -38,15 +38,15 @@ public class EndangeredAnimal extends Animal{
       return false;
     } else {
       EndangeredAnimal newEndangeredAnimal = (EndangeredAnimal) otherEndangeredAnimal;
-      return this.getName().equals(newEndangeredAnimal.getName()) && this.getSpecies().equals(newEndangeredAnimal.getSpecies());
+      return this.getTag().equals(newEndangeredAnimal.getTag()) && this.getSpecies().equals(newEndangeredAnimal.getSpecies());
     }
   }
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, type, species, health, age, endangered) VALUES (:name, :type, :species, :health, :age, true);";
+      String sql = "INSERT INTO animals (tag, type, species, health, age, endangered) VALUES (:tag, :type, :species, :health, :age, true);";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
+        .addParameter("tag", this.tag)
         .addParameter("health", this.health)
         .addParameter("age", this.age)
         .addParameter("type", this.type)

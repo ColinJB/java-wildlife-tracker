@@ -10,18 +10,24 @@ import java.text.SimpleDateFormat;
 
 public class Ranger {
   private int id;
+  private int station_id;
   private String name;
   private String phone;
   private String badge;
 
-  public Ranger(String name, String phone, String badge) {
+  public Ranger(String name, String phone, String badge, int station_id) {
     this.name = name;
     this.phone = phone;
     this.badge = badge;
+    this.station_id = station_id;
   }
 
   public int getId() {
     return id;
+  }
+
+  public int getStationId() {
+    return station_id;
   }
 
   public String getName() {
@@ -42,15 +48,19 @@ public class Ranger {
       return false;
     } else {
       Ranger newRanger = (Ranger) otherRanger;
-      return this.getName().equals(newRanger.getName());
+      return this.getName().equals(newRanger.getName()) &&
+             this.getBadge().equals(newRanger.getBadge());
     }
   }
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO rangers (name) VALUES (:name);";
+      String sql = "INSERT INTO rangers (name, phone, badge, station_id) VALUES (:name, :phone, :badge, :station_id);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", name)
+        .addParameter("phone", phone)
+        .addParameter("badge", badge)
+        .addParameter("station_id", station_id)
         .executeUpdate()
         .getKey();
     }
@@ -78,7 +88,7 @@ public class Ranger {
 
   public List<Sighting> allSightings() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE ranger_id = :ranger_id;";
+      String sql = "SELECT * FROM sightings WHERE ranger_id = :ranger_id ORDER BY timestamp desc;";
       return con.createQuery(sql)
         .addParameter("ranger_id", this.id)
         .executeAndFetch(Sighting.class);
@@ -110,6 +120,16 @@ public class Ranger {
       String sql = String.format("UPDATE rangers SET %s = %s WHERE id=:id;", column, value);
       con.createQuery(sql)
         .addParameter("id", this.id)
+        .executeUpdate();
+    }
+  }
+
+  public void changeStation(int stationId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE rangers SET station_id = :station_id WHERE id=:id;";
+      con.createQuery(sql)
+        .addParameter("id", this.id)
+        .addParameter("station_id", stationId)
         .executeUpdate();
     }
   }
