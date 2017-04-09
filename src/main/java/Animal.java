@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Animal {
   public int id;
@@ -14,6 +16,14 @@ public class Animal {
   public String type;
   public String species;
   public boolean endangered;
+
+  public static Comparator<Animal> AnimalSpeciesComparator = new Comparator<Animal>() {
+    public int compare(Animal a1, Animal a2) {
+      String animalSpecies1 = a1.getSpecies().toUpperCase();
+      String animalSpecies2 = a2.getSpecies().toUpperCase();
+      return animalSpecies1.compareTo(animalSpecies2);
+    }
+  };
 
   public String getTag() {
     return tag;
@@ -55,6 +65,7 @@ public class Animal {
     List<Animal> allAnimals = new ArrayList<Animal>();
     allAnimals.addAll(EndangeredAnimal.all());
     allAnimals.addAll(NonEndangered.all());
+    Collections.sort(allAnimals, Animal.AnimalSpeciesComparator);
     return allAnimals;
   }
 
@@ -99,7 +110,7 @@ public class Animal {
 
   public List<Ranger> allRangers(){
   try (Connection con = DB.sql2o.open()){
-    String sql = "SELECT rangers.*  FROM animals JOIN animals_rangers ON (animals.id = animals_rangers.animal_id) JOIN rangers ON (animals_rangers.ranger_id = rangers.id) WHERE animals.id =:id;";
+    String sql = "SELECT rangers.*  FROM animals JOIN animals_rangers ON (animals.id = animals_rangers.animal_id) JOIN rangers ON (animals_rangers.ranger_id = rangers.id) WHERE animals.id =:id ORDER BY name asc;";
     return con.createQuery(sql)
       .addParameter("id", this.id)
       .throwOnMappingFailure(false)

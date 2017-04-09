@@ -97,7 +97,7 @@ public class Ranger {
 
   public List<Animal> allAnimals(){
   try (Connection con = DB.sql2o.open()){
-    String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id;";
+    String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id ORDER BY species asc;";
     return con.createQuery(sql)
       .addParameter("id", this.getId())
       .throwOnMappingFailure(false)

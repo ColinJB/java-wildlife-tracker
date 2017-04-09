@@ -75,22 +75,12 @@ public class Station {
 
   public List<Sighting> allRangers() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM rangers WHERE station_id = :id;";
+      String sql = "SELECT * FROM rangers WHERE station_id = :id ORDER BY name asc;";
       return con.createQuery(sql)
         .addParameter("id", this.id)
         .executeAndFetch(Sighting.class);
     }
   }
-
-  // public List<Animal> allAnimals(){
-  // try (Connection con = DB.sql2o.open()){
-  //   String sql = "SELECT animals.*  FROM rangers JOIN animals_rangers ON (rangers.id = animals_rangers.ranger_id) JOIN animals ON (animals_rangers.animal_id = animals.id) WHERE rangers.id =:id;";
-  //   return con.createQuery(sql)
-  //     .addParameter("id", this.getId())
-  //     .throwOnMappingFailure(false)
-  //     .executeAndFetch(Animal.class);
-  //   }
-  // }
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {

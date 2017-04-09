@@ -113,7 +113,7 @@ public class Sighting {
 
   public static List<Sighting> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings;";
+      String sql = "SELECT * FROM sightings ORDER BY timestamp desc;";
       return con.createQuery(sql)
         .executeAndFetch(Sighting.class);
     }
@@ -152,7 +152,7 @@ public class Sighting {
 
   public List<Animal> allAnimals(){
   try (Connection con = DB.sql2o.open()){
-    String sql = "SELECT animals.*  FROM sightings JOIN animals_sightings ON (sightings.id = animals_sightings.sighting_id) JOIN animals ON (animals_sightings.animal_id = animals.id) WHERE sightings.id =:id;";
+    String sql = "SELECT animals.*  FROM sightings JOIN animals_sightings ON (sightings.id = animals_sightings.sighting_id) JOIN animals ON (animals_sightings.animal_id = animals.id) WHERE sightings.id =:id ORDER BY species asc;";
     return con.createQuery(sql)
       .addParameter("id", this.id)
       .throwOnMappingFailure(false)
