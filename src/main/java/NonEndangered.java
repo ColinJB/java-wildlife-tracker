@@ -11,6 +11,7 @@ public class NonEndangered extends Animal {
     this.type = type;
     this.species = species;
     endangered = ENDANGERED_STATUS;
+    this.count = 0;
   }
 
   @Override

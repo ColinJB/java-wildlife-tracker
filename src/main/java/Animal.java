@@ -9,9 +9,14 @@ public class Animal {
   public String type;
   public String species;
   public boolean endangered;
+  public int count;
 
   public String getName() {
     return name;
+  }
+
+  public int getCount() {
+    return count;
   }
 
   public String getSpecies() {
@@ -71,20 +76,32 @@ public class Animal {
 
   public void updateInfo(String column, String value) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = String.format("UPDATE animals SET %s = %s WHERE id=:id;", column, value);
+      String sql = String.format("UPDATE animals SET %s = '%s' WHERE id=:id;", column, value);
       con.createQuery(sql)
         .addParameter("id", this.id)
         .executeUpdate();
     }
   }
 
-  public List<Sighting> getSightings() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
-        return con.createQuery(sql)
-          .addParameter("id", id)
-          .executeAndFetch(Sighting.class);
+  public List<Sighting> allSightings(){
+  try (Connection con = DB.sql2o.open()){
+    String sql = "SELECT sightings.*  FROM animals JOIN animals_sightings ON (animals.id = animals_sightings.animal_id) JOIN sightings ON (animals_sightings.sighting_id = sightings.id) WHERE animals.id =:id;";
+    return con.createQuery(sql)
+      .addParameter("id", this.id)
+      .throwOnMappingFailure(false)
+      .executeAndFetch(Sighting.class);
     }
+  }
+
+  public void addSighting(Sighting sighting){
+    try (Connection con = DB.sql2o.open()){
+      String sql = "INSERT INTO animals_sightings (animal_id, sighting_id) VALUES (:animal_id, :sighting_id);";
+      con.createQuery(sql)
+        .addParameter("animal_id", this.id)
+        .addParameter("sighting_id", sighting.getId())
+        .executeUpdate();
+      }
+    count++;
   }
 
 }

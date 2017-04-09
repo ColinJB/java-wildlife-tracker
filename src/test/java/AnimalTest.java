@@ -60,11 +60,28 @@ public class AnimalTest {
   public void updateInfo() {
     EndangeredAnimal testAnimal = new EndangeredAnimal("Marty","Cat","Mammal");
     testAnimal.save();
-    testAnimal.updateInfo("species", "'Maned Wolf'");
-    testAnimal.updateInfo("type", "'Canid'");
+    testAnimal.updateInfo("species", "Maned Wolf");
+    testAnimal.updateInfo("type", "Canid");
     EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
     assertEquals(savedAnimal.getType(), "Canid");
     assertEquals(savedAnimal.getSpecies(), "Maned Wolf");
+  }
+
+  @Test
+  public void allSightings_() {
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer","Cat","Mammal");
+    testAnimal.save();
+    Ranger testRanger = new Ranger("Colin");
+    testRanger.save();
+    Sighting testSighting = new Sighting("Here", testRanger.getId(), "11:11");
+    testSighting.save();
+    Sighting testSighting2 = new Sighting("Here", testRanger.getId(), "11:11");
+    testSighting2.save();
+    testAnimal.addSighting(testSighting);
+    testAnimal.addSighting(testSighting2);
+    EndangeredAnimal savedAnimal = EndangeredAnimal.all().get(0);
+    System.out.println(testAnimal.allSightings());
+    assertEquals(testAnimal.allSightings().size(), 2);
   }
 
 }

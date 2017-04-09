@@ -16,6 +16,7 @@ public class EndangeredAnimal extends Animal{
     this.age = age;
     this.species = species;
     endangered = ENDANGERED_STATUS;
+    this.count = 0;
   }
 
   public String getHealth() {

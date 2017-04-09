@@ -80,4 +80,18 @@ public class SightingTest {
     assertTrue(testSighting instanceof Sighting);
   }
 
+  @Test
+  public void allAnimals_returnsAnimalsOfSighting_list() {
+    EndangeredAnimal testAnimal = new EndangeredAnimal("Deer", "", "");
+    testAnimal.save();
+    Sighting testSighting = new Sighting ("there", 1, "Ranger Avery");
+    testSighting.save();
+    EndangeredAnimal secondTestAnimal = new EndangeredAnimal("Badger", "", "");
+    secondTestAnimal.save();
+    testAnimal.addSighting(testSighting);
+    secondTestAnimal.addSighting(testSighting);
+    System.out.println(testSighting.allAnimals());
+    assertEquals(Sighting.find(testSighting.getId()).allAnimals().size(), 2);
+  }
+
 }

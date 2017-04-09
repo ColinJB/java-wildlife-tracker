@@ -112,6 +112,17 @@ public class Sighting {
     }
   }
 
+  public List<Animal> allAnimals(){
+  try (Connection con = DB.sql2o.open()){
+    String sql = "SELECT animals.*  FROM sightings JOIN animals_sightings ON (sightings.id = animals_sightings.sighting_id) JOIN animals ON (animals_sightings.animal_id = animals.id) WHERE sightings.id =:id;";
+    return con.createQuery(sql)
+      .addParameter("id", this.id)
+      .throwOnMappingFailure(false)
+      .executeAndFetch(Animal.class);
+    }
+  }
+
+
 
 
 }
