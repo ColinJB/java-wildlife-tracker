@@ -13,6 +13,7 @@ public class Sighting {
   private int id;
   private int ranger_id;
   private int location_id;
+  private int station_id;
   private Timestamp timestamp;
   private String date;
   private Animal[] animals;
@@ -48,6 +49,10 @@ public class Sighting {
     return location_id;
   }
 
+  public int getStationId() {
+    return this.station_id;
+  }
+
   public int getRangerId() {
     return ranger_id;
   }
@@ -75,12 +80,14 @@ public class Sighting {
     this.timestamp = timestamp;
     String date = this.stampToString();
     this.date = date;
+    Location location = Location.find(this.location_id);
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (timestamp, date, location_id, ranger_id) VALUES (:timestamp, :date, :location_id, :ranger_id);";
+      String sql = "INSERT INTO sightings (timestamp, date, location_id, station_id, ranger_id) VALUES (:timestamp, :date, :location_id, :station_id, :ranger_id);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("timestamp", timestamp)
         .addParameter("date", date)
         .addParameter("location_id", this.location_id)
+        .addParameter("station_id", location.getStationId())
         .addParameter("ranger_id", this.ranger_id)
         .executeUpdate()
         .getKey();

@@ -120,4 +120,20 @@ public class SightingTest {
     assertEquals(Sighting.orderedList().size(), 8);
   }
 
+  @Test
+  public void getStationId_() {
+    Station testStation = new Station("Station1");
+    testStation.save();
+    Location testLocation = new Location("Here", testStation.getId());
+    testLocation.save();
+    Sighting testSighting = new Sighting(testLocation.getId(),"1985-04-12T23:20:50.52", 1);
+    testSighting.save();
+    System.out.println(testStation.getId());
+    System.out.println(testLocation.getId());
+    System.out.println(testLocation.getStationId());
+    System.out.println(testSighting.getLocationId());
+    System.out.println(testSighting.getStationId());
+    assertEquals(Sighting.all().get(0).getStationId(), testStation.getId());
+  }
+
 }

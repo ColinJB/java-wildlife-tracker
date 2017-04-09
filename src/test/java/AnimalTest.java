@@ -90,9 +90,13 @@ public class AnimalTest {
     testAnimal.save();
     Ranger testRanger = new Ranger("Colin", "", "",1);
     testRanger.save();
-    Sighting testSighting = new Sighting(1,"1987-04-12T23:20:50.52", testRanger.getId(), testAnimal);
-    Sighting testSighting2 = new Sighting(1,"1985-04-12T23:20:52.52", testRanger.getId(), testAnimal);
-    Sighting testSighting3 = new Sighting(1,"1986-04-12T23:20:52.52", testRanger.getId(), testAnimal);
+    Station station = new Station("Station");
+    station.save();
+    Location location = new Location("Here", station.getId());
+    location.save();
+    Sighting testSighting = new Sighting(location.getId(),"1987-04-12T23:20:50.52", testRanger.getId(), testAnimal);
+    Sighting testSighting2 = new Sighting(location.getId(),"1985-04-12T23:20:52.52", testRanger.getId(), testAnimal);
+    Sighting testSighting3 = new Sighting(location.getId(),"1986-04-12T23:20:52.52", testRanger.getId(), testAnimal);
     testSighting.save();
     testSighting2.save();
     testSighting3.save();
