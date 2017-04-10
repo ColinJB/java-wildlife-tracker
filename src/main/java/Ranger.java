@@ -68,7 +68,7 @@ public class Ranger {
 
   public static List<Ranger> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM rangers;";
+      String sql = "SELECT * FROM rangers ORDER BY name asc;";
       return con.createQuery(sql)
         .executeAndFetch(Ranger.class);
     }

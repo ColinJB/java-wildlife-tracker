@@ -46,7 +46,7 @@ public class Station {
 
   public static List<Station> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM stations;";
+      String sql = "SELECT * FROM stations ORDER BY name asc;";
       return con.createQuery(sql)
         .executeAndFetch(Station.class);
     }

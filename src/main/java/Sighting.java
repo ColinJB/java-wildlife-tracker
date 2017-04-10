@@ -49,12 +49,39 @@ public class Sighting {
     return location_id;
   }
 
+  public Location getLocation() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM locations WHERE id=:location_id;";
+      return con.createQuery(sql)
+        .addParameter("location_id", this.location_id)
+        .executeAndFetchFirst(Location.class);
+    }
+  }
+
   public int getStationId() {
     return this.station_id;
   }
 
+  public Station getStation() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM stations WHERE id=:station_id;";
+      return con.createQuery(sql)
+        .addParameter("station_id", this.station_id)
+        .executeAndFetchFirst(Station.class);
+    }
+  }
+
   public int getRangerId() {
     return ranger_id;
+  }
+
+  public Ranger getRanger() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM rangers WHERE id=:ranger_id;";
+      return con.createQuery(sql)
+        .addParameter("ranger_id", this.ranger_id)
+        .executeAndFetchFirst(Ranger.class);
+    }
   }
 
   public String getDate() {
@@ -157,14 +184,6 @@ public class Sighting {
       .addParameter("id", this.id)
       .throwOnMappingFailure(false)
       .executeAndFetch(Animal.class);
-    }
-  }
-
-  public static List<Sighting> orderedList() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings ORDER BY timestamp desc;";
-      return con.createQuery(sql)
-        .executeAndFetch(Sighting.class);
     }
   }
 

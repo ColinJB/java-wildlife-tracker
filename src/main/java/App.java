@@ -14,6 +14,10 @@ public class App {
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("animals", Animal.allAnimals());
+      model.put("rangers", Ranger.all());
+      model.put("locations", Location.all());
+      model.put("stations", Station.all());
+      model.put("sightings", Sighting.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

@@ -45,8 +45,8 @@ public class Animal {
     return type;
   }
 
-  public boolean endangeredStatus() {
-    return endangered;
+  public String endangeredStatus() {
+    return String.valueOf(endangered).toUpperCase();
   }
 
   @Override
