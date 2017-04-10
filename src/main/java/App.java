@@ -14,37 +14,25 @@ public class App {
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("animals", Animal.allAnimals());
-      model.put("endangeredAnimals", EndangeredAnimal.all());
-      model.put("sightings", Sighting.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     post("/animal/new", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
       String endangered = request.queryParams("endangered");
-      if (endangered.equals("yes")) {
-        String name = request.queryParams("name");
-        String health = request.queryParams("health");
-        String age = request.queryParams("age");
-        EndangeredAnimal endangeredAnimal = new EndangeredAnimal(name, health, age);
+      String species = request.queryParams("species");
+      String type = request.queryParams("class");
+      String tag = request.queryParams("tag");
+      if (endangered.equals("yes")){
+        EndangeredAnimal endangeredAnimal = new EndangeredAnimal(tag, species, type);
         endangeredAnimal.save();
-        model.put("animals", Animal.allAnimals());
-        model.put("endangeredAnimals", EndangeredAnimal.all());
-        model.put("sightings", Sighting.all());
-        model.put("template", "templates/index.vtl");
-        return new ModelAndView(model, layout);
       } else {
-        String name = request.queryParams("name");
-        EndangeredAnimal animal = new EndangeredAnimal(name, "", "");
-        animal.save();
-        model.put("animals", Animal.allAnimals());
-        model.put("endangeredAnimals", EndangeredAnimal.all());
-        model.put("sightings", Sighting.all());
-        model.put("template", "templates/index.vtl");
-        return new ModelAndView(model, layout);
+        NonEndangered safeAnimal = new NonEndangered(tag, species, type);
+        safeAnimal.save();
       }
-    }, new VelocityTemplateEngine());
+      response.redirect("/");
+      return null;
+    });
 
     post("/endangered_sighting", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();

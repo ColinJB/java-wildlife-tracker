@@ -3,26 +3,22 @@
 <h1>Add Animal to Database</h1>
 
 <form action="/animal/new" method="post">
-  <label>Animal Species</label>
-  <input type="text" id="name" name="name">
+  <label>Animal Species:</label>
+  <input type="text" id="species" name="species"><br>
+  <label>Animal Tag# (if applicable):</label>
+  <input type="text" id="tag" name="tag"><br>
+  <label>Animal Class:</label>
+  <select id="class" type="text" name="class">
+    <option value="Mammal">Mammal</option>
+    <option value="Reptile">Reptile</option>
+    <option value="Amphibian">Amphibian</option>
+    <option value="Fish">Fish</option>
+    <option value="Bird">Bird</option>
+  </select><br>
   <label>Endangered?</label>
   <select id="endangered" type="text" name="endangered">
     <option value="no">No</option>
     <option value="yes">Yes</option>
-  </select>
-  <h3>Additional Info for Endangered Animals:</h3>
-  <label>Health</label>
-  <select id="health" type="text" name="health">
-    <option value="Ill">Ill</option>
-    <option value="Okay">Okay</option>
-    <option value="Healthy">Healthy</option>
-  </select>
-
-  <label>Age</label>
-  <select id="age" type="text" name="age">
-    <option value="Newborn">Newborn</option>
-    <option value="Young">Young</option>
-    <option value="Adult">Adult</option>
   </select>
 
   <button type="submit">Add Animal</button>
