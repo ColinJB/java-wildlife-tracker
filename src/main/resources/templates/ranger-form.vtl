@@ -1,0 +1,20 @@
+<h4><a href="/">Home</a></h4><br>
+
+<h1>Add Ranger to Database</h1><hr>
+
+<form action="/animal/new" method="post">
+  <label>Name:</label>
+  <input type="text" id="name" name="name"><br>
+  <label>Phone Number:</label>
+  <input type="text" id="phone" name="phone"><br>
+  <label>Badge Number:</label>
+  <input type="text" id="badge" name="badge"><br>
+  <label>Station:</label>
+  <select id="station" type="text" name="station">
+    <option value=""></option>
+    #foreach ($station in $stations)
+      <option value="$station.getId()">$station.getName()</option>
+    #end
+  </select><hr>
+  <button type="submit">Add Ranger</button>
+</form>

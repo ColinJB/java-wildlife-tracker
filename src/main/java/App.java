@@ -45,6 +45,23 @@ public class App {
       return null;
     });
 
+    get("/ranger/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("stations", Station.all());
+      model.put("template", "templates/ranger-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/ranger/new", (request, response) -> {
+      String name = request.queryParams("name");
+      String phone = request.queryParams("phone");
+      String badge = request.queryParams("badge");
+      int stationId = Integer.parseInt(request.queryParams("station"));
+      Ranger newRanger = new Ranger(name, phone, badge, stationId);
+      response.redirect("/");
+      return null;
+    });
+
     post("/endangered_sighting", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       String rangerName = request.queryParams("rangerName");
