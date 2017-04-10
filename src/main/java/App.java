@@ -77,6 +77,22 @@ public class App {
       return null;
     });
 
+    get("/location/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("stations", Station.all());
+      model.put("template", "templates/location-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/location/new", (request, response) -> {
+      String name = request.queryParams("name");
+      int station_id = request.queryParams("station");
+      Loca newLocation = new Location(name, station_id);
+      newLocation.save();
+      response.redirect("/");
+      return null;
+    });
+
     post("/endangered_sighting", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       String rangerName = request.queryParams("rangerName");
