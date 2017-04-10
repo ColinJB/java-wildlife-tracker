@@ -22,17 +22,24 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/animal/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("animals", Animal.allAnimals());
+      model.put("template", "templates/animal-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     post("/animal/new", (request, response) -> {
       String endangered = request.queryParams("endangered");
       String species = request.queryParams("species");
-      String type = request.queryParams("class");
+      String type = request.queryParams("type");
       String tag = request.queryParams("tag");
       if (endangered.equals("yes")){
         EndangeredAnimal endangeredAnimal = new EndangeredAnimal(tag, species, type);
         endangeredAnimal.save();
       } else {
-        NonEndangered safeAnimal = new NonEndangered(tag, species, type);
-        safeAnimal.save();
+        NonEndangered nonEndangered = new NonEndangered(tag, species, type);
+        nonEndangered.save();
       }
       response.redirect("/");
       return null;
@@ -67,15 +74,6 @@ public class App {
       model.put("template", "templates/success.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-
-    get("/animal/new", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      model.put("animals", Animal.allAnimals());
-      model.put("endangeredAnimals", EndangeredAnimal.all());
-      model.put("template", "templates/animal-form.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
 
     get("/animal/:id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();

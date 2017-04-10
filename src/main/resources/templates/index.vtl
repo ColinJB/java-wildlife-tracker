@@ -40,19 +40,19 @@
       </form>
   </div>
   <div class="col-md-4">
-    <h2><strong>Latest Animal Sightings</strong></h2>
+    <h2 style="text-align:center;"><strong>Latest Animal Sightings</strong></h2>
     #if ($sightings.size() == 0)
-      <p>No sightings currently recorded. <a href="/animal/sighting/new">Click here</a> to add a new one.</p>
+      <p style="text-align:center;">No sightings currently recorded. To add a new one, <a href="/animal/sighting/new">Click here</a>.</p>
     #else
       #foreach ($sighting in $sightings)
-        <a href="/animal/$animal.getId()" class="thumbnail">
+        <a href="/animal/$sighting.getAnimals().get(0).getId()" class="thumbnail">
           <h3>Animal: $sighting.getAnimals().get(0).getSpecies()</h3>
+        </a>
           <h4>Endangered?: <strong>$sighting.getAnimals().get(0).endangeredStatus</strong></h4>
           <h4>Date: $sighting.getDate()</h4>
           <h4>Location: $sighting.getLocation().getName()</h4>
           <h4>Station: $sighting.getStation().getName()</h4>
           <h4>Ranger: $sighting.getRanger().getName()</h4>
-        </a>
       #end
     #end
   </div>
