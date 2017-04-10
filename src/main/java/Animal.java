@@ -45,7 +45,11 @@ public class Animal {
     return type;
   }
 
-  public String endangeredStatus() {
+  public boolean endangeredStatus() {
+    return endangered;
+  }
+
+  public String endangeredStatusString() {
     return String.valueOf(endangered).toUpperCase();
   }
 
@@ -70,13 +74,21 @@ public class Animal {
   }
 
   public static Animal find(int id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE id=:id;";
-      Animal animal = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(EndangeredAnimal.class);
-      return animal;
-    }
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "SELECT * FROM animals WHERE id=:id AND endangered = true;";
+        Animal animal = con.createQuery(sql)
+          .addParameter("id", id)
+          .executeAndFetchFirst(EndangeredAnimal.class);
+          return animal;
+      } catch (IndexOutOfBoundsException exception){
+        try(Connection con = DB.sql2o.open()) {
+          String sql = "SELECT * FROM animals WHERE id=:id AND endangered = false;";
+          Animal animal = con.createQuery(sql)
+            .addParameter("id", id)
+            .executeAndFetchFirst(NonEndangered.class);
+            return animal;
+        }
+      }
   }
 
   public void delete() {

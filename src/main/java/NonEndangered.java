@@ -50,15 +50,15 @@ public class NonEndangered extends Animal {
     }
   }
 
-  public static NonEndangered find(int id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE id=:id;";
-      NonEndangered nonEndangered = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(NonEndangered.class);
-      return nonEndangered;
-    }
-  }
+  // public static NonEndangered find(int id) {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "SELECT * FROM animals WHERE id=:id;";
+  //     NonEndangered nonEndangered = con.createQuery(sql)
+  //       .addParameter("id", id)
+  //       .executeAndFetchFirst(NonEndangered.class);
+  //     return nonEndangered;
+  //   }
+  // }
 
 
 }

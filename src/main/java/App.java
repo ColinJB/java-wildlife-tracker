@@ -93,56 +93,69 @@ public class App {
       return null;
     });
 
-    post("/endangered_sighting", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      String rangerName = request.queryParams("rangerName");
-      int animalIdSelected = Integer.parseInt(request.queryParams("endangeredAnimalSelected"));
-      String latLong = request.queryParams("latLong");
-      // Sighting sighting = new Sighting(animalIdSelected, latLong, rangerName);
-      // sighting.save();
-      // model.put("sighting", sighting);
-      model.put("animals", EndangeredAnimal.all());
-      String animal = EndangeredAnimal.find(animalIdSelected).getSpecies();
-      model.put("animal", animal);
-      model.put("template", "templates/success.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+    post("/animal/sighting/new", (request, response) -> {
+      int rangerId = Integer.parseInt(request.queryParams("ranger"));
+      int locationId = Integer.parseInt(request.queryParams("location"));
+      int stationId = Integer.parseInt(request.queryParams("station"));
+      int animalId = Integer.parseInt(request.queryParams("animal"));
+      String date = request.queryParams("date");
+      Animal newAnimal = Animal.find(animalId);
+      Sighting newSighting = new Sighting(locationId, date, rangerId, newAnimal);
+      newSighting.save();
+      response.redirect("/");
+      return null;
+    });
 
-    post("/sighting", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      String rangerName = request.queryParams("rangerName");
-      int animalIdSelected = Integer.parseInt(request.queryParams("animalSelected"));
-      String latLong = request.queryParams("latLong");
-      // Sighting sighting = new Sighting(animalIdSelected, latLong, rangerName);
-      // sighting.save();
-      // model.put("sighting", sighting);
-      model.put("animals", Animal.allAnimals());
-      String animal = Animal.find(animalIdSelected).getSpecies();
-      model.put("animal", animal);
-      model.put("template", "templates/success.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+    // post("/endangered_sighting", (request, response) -> {
+    //   Map<String, Object> model = new HashMap<String, Object>();
+    //   String rangerName = request.queryParams("rangerName");
+    //   int animalIdSelected = Integer.parseInt(request.queryParams("endangeredAnimalSelected"));
+    //   String latLong = request.queryParams("latLong");
+    //   // Sighting sighting = new Sighting(animalIdSelected, latLong, rangerName);
+    //   // sighting.save();
+    //   // model.put("sighting", sighting);
+    //   model.put("animals", EndangeredAnimal.all());
+    //   String animal = EndangeredAnimal.find(animalIdSelected).getSpecies();
+    //   model.put("animal", animal);
+    //   model.put("template", "templates/success.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
 
-    get("/animal/:id", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      Animal animal = Animal.find(Integer.parseInt(request.params("id")));
-      model.put("animal", animal);
-      model.put("template", "templates/animal.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+    // post("/sighting", (request, response) -> {
+    //   Map<String, Object> model = new HashMap<String, Object>();
+    //   String rangerName = request.queryParams("rangerName");
+    //   int animalIdSelected = Integer.parseInt(request.queryParams("animalSelected"));
+    //   String latLong = request.queryParams("latLong");
+    //   // Sighting sighting = new Sighting(animalIdSelected, latLong, rangerName);
+    //   // sighting.save();
+    //   // model.put("sighting", sighting);
+    //   model.put("animals", Animal.allAnimals());
+    //   String animal = Animal.find(animalIdSelected).getSpecies();
+    //   model.put("animal", animal);
+    //   model.put("template", "templates/success.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
 
-    get("/endangered_animal/:id", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      EndangeredAnimal endangeredAnimal = EndangeredAnimal.find(Integer.parseInt(request.params("id")));
-      model.put("endangeredAnimal", endangeredAnimal);
-      model.put("template", "templates/endangered_animal.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+    // get("/animal/:id", (request, response) -> {
+    //   Map<String, Object> model = new HashMap<String, Object>();
+    //   Animal animal = Animal.find(Integer.parseInt(request.params("id")));
+    //   model.put("animal", animal);
+    //   model.put("template", "templates/animal.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
 
-    get("/error", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/error.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+    // get("/endangered_animal/:id", (request, response) -> {
+    //   Map<String, Object> model = new HashMap<String, Object>();
+    //   EndangeredAnimal endangeredAnimal = EndangeredAnimal.find(Integer.parseInt(request.params("id")));
+    //   model.put("endangeredAnimal", endangeredAnimal);
+    //   model.put("template", "templates/endangered_animal.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // get("/error", (request, response) -> {
+    //   Map<String, Object> model = new HashMap<String, Object>();
+    //   model.put("template", "templates/error.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
   }
 }
