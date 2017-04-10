@@ -58,6 +58,21 @@ public class App {
       String badge = request.queryParams("badge");
       int stationId = Integer.parseInt(request.queryParams("station"));
       Ranger newRanger = new Ranger(name, phone, badge, stationId);
+      newRanger.save();
+      response.redirect("/");
+      return null;
+    });
+
+    get("/station/new", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/station-form.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/station/new", (request, response) -> {
+      String name = request.queryParams("name");
+      Station newStation = new Station(name);
+      newStation.save();
       response.redirect("/");
       return null;
     });

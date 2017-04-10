@@ -42,7 +42,7 @@
   <div class="col-md-4">
     <h2 style="text-align:center;"><strong>Latest Animal Sightings</strong></h2>
     #if ($sightings.size() == 0)
-      <p style="text-align:center;">No sightings currently recorded. To add a new one, <a href="/animal/sighting/new">Click here</a>.</p>
+      <p style="text-align:center;">No sightings currently recorded. To add a new one;<br> <a href="/animal/sighting/new">Click here</a>.</p>
     #else
       #foreach ($sighting in $sightings)
         <a href="/animal/$sighting.getAnimals().get(0).getId()" class="thumbnail">
