@@ -86,8 +86,8 @@ public class App {
 
     post("/location/new", (request, response) -> {
       String name = request.queryParams("name");
-      int station_id = request.queryParams("station");
-      Loca newLocation = new Location(name, station_id);
+      int station_id = Integer.parseInt(request.queryParams("station"));
+      Location newLocation = new Location(name, station_id);
       newLocation.save();
       response.redirect("/");
       return null;
