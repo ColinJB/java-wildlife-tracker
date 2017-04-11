@@ -108,26 +108,19 @@ public class App {
       DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
       String stringDate = df.format(date);
       Animal newAnimal = Animal.find(animalId);
-      System.out.println(newAnimal);
-      System.out.println(animalId);
       Sighting newSighting = new Sighting(locationId, timestamp, stringDate, rangerId, newAnimal);
       newSighting.save();
       response.redirect("/");
       return null;
     });
 
-    post("/form", (request, response) -> {
-      String date = request.queryParams("date").replace("T"," ") + ":00";
-      System.out.println(date);
-      Timestamp timestamp = Timestamp.valueOf(date);
-      System.out.println(timestamp);
-      Date newDate = new Date(timestamp.getTime());
-      DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
-      String stringDate = df.format(newDate);
-      System.out.println(stringDate);
-      response.redirect("/");
-      return null;
-    });
+    get("/animal/:id", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Animal animal = Animal.find(Integer.parseInt(request.params("id")));
+      model.put("animal", animal);
+      model.put("template", "templates/animal.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
     // post("/endangered_sighting", (request, response) -> {
     //   Map<String, Object> model = new HashMap<String, Object>();
@@ -159,13 +152,7 @@ public class App {
     //   return new ModelAndView(model, layout);
     // }, new VelocityTemplateEngine());
 
-    // get("/animal/:id", (request, response) -> {
-    //   Map<String, Object> model = new HashMap<String, Object>();
-    //   Animal animal = Animal.find(Integer.parseInt(request.params("id")));
-    //   model.put("animal", animal);
-    //   model.put("template", "templates/animal.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
+
 
     // get("/endangered_animal/:id", (request, response) -> {
     //   Map<String, Object> model = new HashMap<String, Object>();
