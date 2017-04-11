@@ -1,9 +1,9 @@
 <div class="row">
   <div class="page-header">
-    <h1>Wildlife Tracker<small>National Park Rangers</small></h1>
+    <h1><span id="title">Wildlife Tracker</span> <small id="small"> National Park Rangers</small></h1>
   </div>
   <div class="col-md-4"><br><br>
-    <h3 style="text-align: center">Record Animal Sighting</h3><hr>
+    <h3 id="record" style="text-align: center">Record Animal Sighting</h3><hr>
     <form action="/animal/sighting/new" method="post">
       <label for="ranger">Ranger:</label>
       <select id="ranger" type="text" name="ranger" class="form-control">
@@ -43,7 +43,9 @@
     </form>
   </div>
   <div class="col-md-4">
-    <img src="https://us.123rf.com/450wm/levkr/levkr1209/levkr120900017/15073983-green-beautiful-and-tall-tree-isolated-on-white-background.jpg" alt="Beautiful tree.">
+    <img src="https://us.123rf.com/450wm/levkr/levkr1209/levkr120900017/15073983-green-beautiful-and-tall-tree-isolated-on-white-background.jpg" alt="Beautiful tree."><br><br><br><br>
+    <hr>
+    <h4 id="view">View all sightings below.</h4>
   </div>
   <div class="col-md-4"><br><br>
     <h3 style="text-align:right;"><a href="/animal/new">Add New Animal to System</a></h3><br><hr><br>
@@ -53,7 +55,7 @@
   </div>
 </div>
 <div class="row">
-  <h2 style="text-align:center;">Latest Animal Sightings</h2>
+  <h2 id="latest" style="text-align:center;">Latest Animal Sightings</h2><hr><br>
   #if ($sightings.size() == 0)
     <p style="text-align:center;"><strong>No sightings currently recorded.</strong></p>
   #else
@@ -61,9 +63,9 @@
       <div class="col-md-4">
         <div class="well well-sm">
           <div class="alert alert-success">
-            <p class="lead" style="display:inline"><a href="/animal/$sighting.allAnimals().get(0).getId()"> $sighting.allAnimals().get(0).getSpecies()</a></p><a href="$sighting.allAnimals().get(0)/allSightings"><p class="text-align:right">Sightings: <span class="badge">$sighting.allAnimals().get(0).allSightings().size()</span></p></a><br><hr>
+            <p class="lead" style="display:inline">- <a href="/animal/$sighting.allAnimals().get(0).getId()"> $sighting.allAnimals().get(0).getSpecies()</a></p><a href="$sighting.allAnimals().get(0)/allSightings"><p id="sight" style="display:inline">Sightings: <span class="badge">$sighting.allAnimals().get(0).allSightings().size()</span></p></a><hr>
             <p style="display:inline">Endangered:</p>
-            <p style="display:inline"><strong>$sighting.allAnimals().get(0).endangeredStatusString()</strong></p>
+            <p id="danger"style="display:inline"><strong>$sighting.allAnimals().get(0).endangeredStatusString()</strong></p>
             <p>Location: $sighting.getLocation().getName()</p>
             <p>Station: $sighting.getStation().getName()</p>
             <p>Ranger: $sighting.getRanger().getName()</p>

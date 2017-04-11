@@ -1,0 +1,42 @@
+img {
+  position: relative;
+  right: 32px;
+  top: 95px;
+  border-radius: 5px;
+  width: 420px;
+}
+
+#sight {
+  position: relative;
+  left: 105px;
+}
+
+#view {
+  position: relative;
+  left: 75px;
+  top: 20px;
+}
+
+#danger {
+  color: #b30000;
+}
+
+#title {
+  color: #694d2c;
+}
+
+.title {
+  color: #694d2c;
+}
+
+#small {
+  color: #417132;
+}
+
+.info {
+  color: #417132;
+}
+
+#latest {
+  color: #694d2c;
+}
