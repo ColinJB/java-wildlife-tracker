@@ -3,6 +3,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import spark.ModelAndView;
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
 
@@ -98,10 +102,29 @@ public class App {
       int locationId = Integer.parseInt(request.queryParams("location"));
       int stationId = Integer.parseInt(request.queryParams("station"));
       int animalId = Integer.parseInt(request.queryParams("animal"));
-      String date = request.queryParams("date");
+      String dateInput = request.queryParams("date");
+      Timestamp timestamp = Timestamp.valueOf(dateInput.replace("T"," ") + ":00");
+      Date date = new Date(timestamp.getTime());
+      DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
+      String stringDate = df.format(date);
       Animal newAnimal = Animal.find(animalId);
-      Sighting newSighting = new Sighting(locationId, date, rangerId, newAnimal);
+      System.out.println(newAnimal);
+      System.out.println(animalId);
+      Sighting newSighting = new Sighting(locationId, timestamp, stringDate, rangerId, newAnimal);
       newSighting.save();
+      response.redirect("/");
+      return null;
+    });
+
+    post("/form", (request, response) -> {
+      String date = request.queryParams("date").replace("T"," ") + ":00";
+      System.out.println(date);
+      Timestamp timestamp = Timestamp.valueOf(date);
+      System.out.println(timestamp);
+      Date newDate = new Date(timestamp.getTime());
+      DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
+      String stringDate = df.format(newDate);
+      System.out.println(stringDate);
       response.redirect("/");
       return null;
     });
