@@ -16,25 +16,14 @@ public class Sighting {
   private String date;
   private Animal[] animals;
 
-  public Sighting(int location_id, Timestamp timestamp, String date, int ranger_id, Animal... animals) {
+  public Sighting(int location_id, int station_id, Timestamp timestamp, String date, int ranger_id, Animal... animals) {
     this.location_id = location_id;
+    this.station_id = station_id;
     this.ranger_id = ranger_id;
     this.date = date;
     this.animals = animals;
     this.timestamp = timestamp;
   }
-
-  // public Timestamp createTimestamp() {
-  //   Timestamp timestamp = Timestamp.valueOf(this.date.replace("T"," ") + ":00");
-  //   return timestamp;
-  // }
-  //
-  // public String stampToString() {
-  //   Date date = new Date(this.timestamp.getTime());
-  //   DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
-  //   String stringDate = df.format(date);
-  //   return stringDate;
-  // }
 
   public Animal[] getAnimals() {
     return animals;
@@ -102,18 +91,13 @@ public class Sighting {
   }
 
   public void save() {
-    // Timestamp timestamp = this.createTimestamp();
-    // this.timestamp = timestamp;
-    // String date = this.stampToString();
-    // this.date = date;
-    Location location = Location.find(this.location_id);
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO sightings (timestamp, date, location_id, station_id, ranger_id) VALUES (:timestamp, :date, :location_id, :station_id, :ranger_id);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("timestamp", this.timestamp)
         .addParameter("date", this.date)
         .addParameter("location_id", this.location_id)
-        .addParameter("station_id", location.getStationId())
+        .addParameter("station_id", this.station_id)
         .addParameter("ranger_id", this.ranger_id)
         .executeUpdate()
         .getKey();

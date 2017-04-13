@@ -108,8 +108,9 @@ public class App {
       DateFormat df = new SimpleDateFormat("E, MMM dd yyyy H:mm a");
       String stringDate = df.format(date);
       Animal newAnimal = Animal.find(animalId);
-      Sighting newSighting = new Sighting(locationId, timestamp, stringDate, rangerId, newAnimal);
+      Sighting newSighting = new Sighting(locationId, stationId, timestamp, stringDate, rangerId, newAnimal);
       newSighting.save();
+      System.out.println(newAnimal.getId());
       response.redirect("/");
       return null;
     });
@@ -118,7 +119,7 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       Animal animal = Animal.find(Integer.parseInt(request.params("id")));
       model.put("animal", animal);
-      model.put("sightings", animal.allSightings());      
+      model.put("sightings", animal.allSightings());
       model.put("template", "templates/animal.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

@@ -3,8 +3,26 @@
     <h1><span id="title">Wildlife Tracker</span> <small id="small"> National Park Rangers</small></h1>
   </div>
   <div class="col-md-4"><br><br>
-    <h3 id="record" style="text-align: center">Record Animal Sighting</h3><hr>
+    <h3 class="top" style="text-align: center">Record Animal Sighting</h3><hr>
     <form action="/animal/sighting/new" method="post">
+      <label for="station">Station:</label>
+      <select id="station" type="text" name="station" class="form-control">
+        <option value=""></option>
+        #foreach ($station in $stations)
+        <option value="$station.getId()">$station.getName()</option>
+        #end
+      </select>
+      <h5><a href="/station/new">Add New Station</a></h5>
+      <br>
+      <label for="location">Location:</label>
+      <select id="location" type="text" name="location" class="form-control">
+        <option value=""></option>
+        #foreach ($location in $locations)
+        <option value="$location.getId()">$location.getName()</option>
+        #end
+      </select>
+      <h5><a href="/location/new">Add New Location</a></h5>
+      <br>
       <label for="ranger">Ranger:</label>
       <select id="ranger" type="text" name="ranger" class="form-control">
         <option value=""></option>
@@ -12,22 +30,7 @@
           <option value="$ranger.getId()">$ranger.getName()</option>
         #end
       </select>
-      <br>
-      <label for="location">Location:</label>
-      <select id="location" type="text" name="location" class="form-control">
-        <option value=""></option>
-        #foreach ($location in $locations)
-          <option value="$location.getId()">$location.getName()</option>
-        #end
-      </select>
-      <br>
-      <label for="station">Station:</label>
-      <select id="station" type="text" name="station" class="form-control">
-        <option value=""></option>
-        #foreach ($station in $stations)
-          <option value="$station.getId()">$station.getName()</option>
-        #end
-      </select>
+      <h5><a href="/ranger/new">Add New Ranger</a></h5>
       <br>
       <label for="animal">Animal:</label>
       <select id="animal" type="text" name="animal" class="form-control">
@@ -36,6 +39,7 @@
           <option value="$animal.getId()">$animal.getSpecies()</option>
         #end
       </select>
+      <h5><a href="/animal/new">Add New Animal</a></h5>
       <br>
       <label for="date">Time of Sighting:</label>
       <input type="datetime-local" name="date" class="form-control"><br>
@@ -44,26 +48,16 @@
   </div>
   <div class="col-md-4">
     <img src="https://us.123rf.com/450wm/levkr/levkr1209/levkr120900017/15073983-green-beautiful-and-tall-tree-isolated-on-white-background.jpg" alt="Beautiful tree."><br><br><br><br>
-    <hr>
-    <h4 id="view">View all sightings below.</h4>
   </div>
   <div class="col-md-4"><br><br>
-    <h3 style="text-align:right;"><a href="/animal/new">Add New Animal to System</a></h3><br><hr><br>
-    <h3 style="text-align:right;"><a href="/ranger/new">Add New Ranger to System</a></h3><br><hr><br>
-    <h3 style="text-align:right;"><a href="/location/new">Add New Location to System</a></h3><br><hr><br>
-    <h3 style="text-align:right;"><a href="/station/new">Add New Station to System</a></h3><br><hr><br>
-  </div>
-</div>
-<div class="row">
-  <h2 id="latest" style="text-align:center;">Latest Animal Sightings</h2><hr><br>
-  #if ($sightings.size() == 0)
-    <p style="text-align:center;"><strong>No sightings currently recorded.</strong></p>
-  #else
-    #foreach ($sighting in $sightings)
-      <div class="col-md-4">
+    <h3 class="top" style="text-align:center;">Latest Animal Sightings</h3><hr><br>
+    #if ($sightings.size() == 0)
+      <p style="text-align:center;"><strong>No sightings currently recorded.</strong></p>
+    #else
+      #foreach ($sighting in $sightings)
         <div class="well well-sm">
           <div class="alert alert-success">
-            <p class="lead" style="display:inline">- <a href="/animal/$sighting.allAnimals().get(0).getId()"> $sighting.allAnimals().get(0).getSpecies()</a></p><a href="$sighting.allAnimals().get(0)/allSightings"><p id="sight" style="display:inline">Sightings: <span class="badge">$sighting.allAnimals().get(0).allSightings().size()</span></p></a><hr>
+            <p class="lead" style="display:inline">- <a href="/animal/$sighting.allAnimals().get(0).getId()"> $sighting.allAnimals().get(0).getSpecies()</a></p><a href="$sighting.allAnimals().get(0)/.getId()"><p id="sight" style="display:inline">Sightings: <span class="badge">$sighting.allAnimals().get(0).allSightings().size()</span></p></a><hr>
             <p style="display:inline">Endangered:</p>
             <p id="danger"style="display:inline"><strong>$sighting.allAnimals().get(0).endangeredStatusString()</strong></p>
             <p>Location: $sighting.getLocation().getName()</p>
@@ -72,13 +66,7 @@
             <p>Date of sighting: $sighting.getDate()</p>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-
-      </div>
-      <div class="col-md-4">
-
-      </div>
+      #end
     #end
-  #end
+  </div>
 </div>
