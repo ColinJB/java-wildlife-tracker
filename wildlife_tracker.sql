@@ -375,7 +375,6 @@ ALTER TABLE ONLY stations ALTER COLUMN id SET DEFAULT nextval('stations_id_seq':
 --
 
 COPY animals (id, tag, endangered, health, age, type, species) FROM stdin;
-8	none	f	\N	\N	Mammal	Cat
 \.
 
 
@@ -383,7 +382,7 @@ COPY animals (id, tag, endangered, health, age, type, species) FROM stdin;
 -- Name: animals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('animals_id_seq', 8, true);
+SELECT pg_catalog.setval('animals_id_seq', 16, true);
 
 
 --
@@ -398,7 +397,7 @@ COPY animals_locations (id, animal_id, location_id) FROM stdin;
 -- Name: animals_locations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('animals_locations_id_seq', 1, false);
+SELECT pg_catalog.setval('animals_locations_id_seq', 15, true);
 
 
 --
@@ -413,7 +412,7 @@ COPY animals_rangers (id, animal_id, ranger_id) FROM stdin;
 -- Name: animals_rangers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('animals_rangers_id_seq', 1, false);
+SELECT pg_catalog.setval('animals_rangers_id_seq', 15, true);
 
 
 --
@@ -428,7 +427,7 @@ COPY animals_sightings (id, animal_id, sighting_id) FROM stdin;
 -- Name: animals_sightings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('animals_sightings_id_seq', 1, false);
+SELECT pg_catalog.setval('animals_sightings_id_seq', 15, true);
 
 
 --
@@ -436,7 +435,6 @@ SELECT pg_catalog.setval('animals_sightings_id_seq', 1, false);
 --
 
 COPY locations (id, name, station_id) FROM stdin;
-1	Zone 1	1
 \.
 
 
@@ -444,7 +442,7 @@ COPY locations (id, name, station_id) FROM stdin;
 -- Name: locations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('locations_id_seq', 1, true);
+SELECT pg_catalog.setval('locations_id_seq', 4, true);
 
 
 --
@@ -452,7 +450,6 @@ SELECT pg_catalog.setval('locations_id_seq', 1, true);
 --
 
 COPY rangers (id, name, phone, badge, station_id) FROM stdin;
-1	Colin J Bloom	6784469616	#4464	1
 \.
 
 
@@ -460,7 +457,7 @@ COPY rangers (id, name, phone, badge, station_id) FROM stdin;
 -- Name: rangers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('rangers_id_seq', 1, true);
+SELECT pg_catalog.setval('rangers_id_seq', 4, true);
 
 
 --
@@ -475,7 +472,7 @@ COPY sightings (id, ranger_id, "timestamp", date, location_id, station_id) FROM 
 -- Name: sightings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('sightings_id_seq', 2, true);
+SELECT pg_catalog.setval('sightings_id_seq', 26, true);
 
 
 --
@@ -483,7 +480,6 @@ SELECT pg_catalog.setval('sightings_id_seq', 2, true);
 --
 
 COPY stations (id, name) FROM stdin;
-1	Battle Ground
 \.
 
 
@@ -491,7 +487,7 @@ COPY stations (id, name) FROM stdin;
 -- Name: stations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: colinjbloom
 --
 
-SELECT pg_catalog.setval('stations_id_seq', 1, true);
+SELECT pg_catalog.setval('stations_id_seq', 4, true);
 
 
 --
